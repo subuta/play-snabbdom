@@ -37,6 +37,7 @@ SystemJS.config({
     "child_process": "github:jspm/nodelibs-child_process@0.2.0-alpha",
     "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",
     "jspm-caddy-hmr": "npm:jspm-caddy-hmr@0.2.10",
+    "lodash": "npm:lodash@4.13.1",
     "process": "github:jspm/nodelibs-process@0.2.0-alpha",
     "snabbdom": "npm:snabbdom@0.5.0",
     "util": "github:jspm/nodelibs-util@0.2.0-alpha",

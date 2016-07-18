@@ -4,6 +4,7 @@ import propsModule from 'snabbdom/modules/props';
 import styleModule from 'snabbdom/modules/style';
 import eventlistenersModule from 'snabbdom/modules/eventlisteners';
 import h from 'snabbdom/h';
+import _ from 'lodash';
 
 console.log('sample!');
 
@@ -14,11 +15,57 @@ const patch = snabbdom.init([ // Init patch function with choosen modules
     eventlistenersModule // attaches event listeners
 ]);
 
-// 1: Create a function that declares what the DOM should look like
-const render = () => {
-    return h(`div#app-container`, {}, [
-        'rendered!'
-    ]);
+const hooks = ['create', 'update', 'remove', 'insert', 'destroy', 'pre', 'post'];
+const generateHooks = (name) =>{
+    return _.reduce(hooks, (result, hook) => {
+        result[hook] = () => console.log(`${name}'s ${hook} called.`);
+        return result;
+    }, {});
+};
+
+// childrenのみを書き換えるパターン
+// const render = (phase = 1) => {
+//     let children = [];
+//     if (phase === 1) {
+//         children = h('span', {hook: generateHooks('child')}, ['nested']);
+//     } else if (phase === 2) {
+//         children = h('span', {hook: generateHooks('child')}, ['updated']);
+//     } else if (phase === 3) {
+//         children = h('span', {hook: generateHooks('child')}, ['done']);
+//     }
+//
+//     return h(`div#app-container`, {
+//         hook: generateHooks('container')
+//     }, h('div', {
+//         hook: generateHooks('nested')
+//     }, [children]));
+// };
+
+// 全部描画しなおし+Elementsのみl
+const render = (phase = 1) => {
+    if (phase === 1) {
+        return h(`div#app-container`, {
+            hook: generateHooks('container')
+        }, [h('div', {
+            hook: generateHooks('nested')
+        }, [h('span', {hook: generateHooks('child')}, ['nested'])])]);
+    } else if (phase === 2) {
+        return h(`div#app-container`, {
+            hook: generateHooks('container')
+        }, [h('div', {
+            hook: generateHooks('nested')
+        }, [h('span', {hook: generateHooks('child')}, ['updated'])])]);
+    } else if (phase === 3) {
+        return h(`div#app-container`, {
+            hook: generateHooks('container')
+        }, [h('div', {
+            hook: generateHooks('nested')
+        }, [h('span', {hook: generateHooks('child')}, ['done'])])]);
+    } else if (phase === 4) {
+        return h(`div#app-container`, {
+            hook: generateHooks('container')
+        }, []);
+    }
 };
 
 let container = document.querySelector('#app-container');
@@ -28,8 +75,28 @@ let tree = render(); // We need an initial tree
 patch(container, tree);
 
 // - with diff then patch(efficient way / with vdom)
-const update = () => {
-    var newTree = render();
+const update = (phase = 1) => {
+    var newTree = render(phase);
     patch(tree, newTree);
     tree = newTree;
 };
+
+_.delay(() => {
+    update(2);
+}, 3000);
+
+_.delay(() => {
+    update(3);
+}, 5000);
+
+_.delay(() => {
+    update(1);
+}, 7000);
+
+_.delay(() => {
+    update(4);
+}, 9000);
+
+_.delay(() => {
+    update(1);
+}, 11000);
