@@ -1,0 +1,26 @@
+# serve from
+localhost:3000
+
+gzip
+browse
+ext .html
+#log / stdout "{method} {uri} {latency}"
+#log ./access.log
+
+websocket /watch "node ./node_modules/.bin/jspm-caddy-hmr"
+
+rewrite {
+  regexp (^/watch$)
+  to /watch
+}
+
+rewrite {
+  regexp (^/$)
+  to /webapp/index.html?{query}
+}
+
+# otherwise prepend public to request
+rewrite {
+  regexp (.*)
+  to /public{path} {path} /webapp/index.html?{query}
+}
