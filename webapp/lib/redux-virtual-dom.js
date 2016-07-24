@@ -11,22 +11,21 @@ export default function(store) {
       const state = getState();
 
       // check mapper functions.
-      const hasMapStateToProps = mapStateToProps && mapStateToProps instanceof Function;
-      const hasDispatchToProps = mapDispatchToProps && mapDispatchToProps instanceof Function;
-      const isChanged = !equal(cache[render].lastProps, props) || !equal(cache[render].lastState, state);
+      const isChanged = !cache[render] || !equal(cache[render].lastProps, props) || !equal(cache[render].lastState, state);
 
       // getResult from render and state.
       const getResult = () => {
-        if (hasMapStateToProps) {
+        if (mapStateToProps instanceof Function) {
           props = {...props, ...mapStateToProps(state)};
-        } else if (hasDispatchToProps) {
+        }
+        if (mapDispatchToProps instanceof Function) {
           props = {...props, ...mapDispatchToProps(dispatch)};
         }
         return render({props, state, dispatch});
       };
 
       // calls if not cached or has some changes in state. (memoize)
-      if (!cache[render] || isChanged) {
+      if (isChanged) {
         cache[render] = {
           result: getResult(),
           lastProps: props,
@@ -38,5 +37,13 @@ export default function(store) {
     };
   };
 
-  return inject;
+  // react-redux like syntax.
+  const connect = (mapStateToProps, mapDispatchToProps) => (render) => {
+    return inject(render, mapStateToProps, mapDispatchToProps)
+  };
+
+  return {
+    inject,
+    connect
+  };
 };

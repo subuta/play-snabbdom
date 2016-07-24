@@ -1,18 +1,49 @@
 import h from 'snabbdom/h';
 
-import store, {inject} from 'webapp/store.js'
+import {connect, inject} from 'webapp/store.js'
 import {createSelector} from 'reselect';
+import { bindActionCreators } from 'redux'
 import {getCount} from 'webapp/reducers/counter.js';
 
-export default inject(({state}) => {
-  const count = getCount(state);
+const dummyActions = {
+  dummyAction: () => {
+    return {
+      type: 'dummy'
+    }
+  }
+};
+
+const mapStateToProps = (state) => {
+  return {
+    count: getCount(state)
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ...bindActionCreators(dummyActions, dispatch)
+  }
+};
+
+const render = ({props}) => {
   return h(`span`, {
     on: {
       'click': function (ev) {
-        store.dispatch({
-          type: 'dummy'
-        });
+        return props.dummyAction();
       }
     }
-  }, [count]);
-});
+  }, [props.count]);
+};
+
+// react-redux way
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(render);
+
+// deku flavored way
+// export default inject(
+//   render,
+//   mapStateToProps,
+//   mapDispatchToProps
+// );
