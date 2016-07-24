@@ -1,11 +1,11 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 
 import _ from 'lodash';
 
 import counter from './counter.js';
 
 const rootReducer = combineReducers({
-    counter
+  counter
 });
 
 export default rootReducer;

@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 
 import reducer from './reducers/index.js';
@@ -6,15 +6,15 @@ import reducer from './reducers/index.js';
 const middlewares = [thunk];
 
 const store = createStore(reducer, compose(
-    applyMiddleware(...middlewares),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+  applyMiddleware(...middlewares),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
 export default store;
 
 export const getContext = () => {
-    return {
-        dispatch: store.dispatch,
-        state: store.getState()
-    }
+  return {
+    dispatch: store.dispatch,
+    state: store.getState()
+  }
 };
