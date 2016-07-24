@@ -11,10 +11,3 @@ const store = createStore(reducer, compose(
 ));
 
 export default store;
-
-export const getContext = () => {
-  return {
-    dispatch: store.dispatch,
-    state: store.getState()
-  }
-};
