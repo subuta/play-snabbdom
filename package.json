@@ -1,8 +1,18 @@
 {
+  "scripts": {
+    "serve": "caddy & npm run watch",
+    "servep": "caddy --conf Caddyfilep",
+    "bundle": "jspm bundle webapp/index.js -wid",
+    "watch": "npm run bundle",
+    "unbundle": "jspm unbundle webapp/index.js",
+    "build": "jspm build webapp/index.js dist/bundled.js --skip-rollup --format umd --skip-source-maps --minify",
+    "build-dev": "jspm build webapp/index.js dist/bundled.js --skip-rollup --format umd"
+  },
   "jspm": {
     "name": "app",
     "main": "app.js",
     "dependencies": {
+      "deep-equal": "npm:deep-equal@^1.0.1",
       "jspm-caddy-hmr": "npm:jspm-caddy-hmr@^0.2.10",
       "lodash": "npm:lodash@^4.13.1",
       "page": "npm:page@^1.7.1",

@@ -35,6 +35,7 @@ SystemJS.config({
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
     "child_process": "github:jspm/nodelibs-child_process@0.2.0-alpha",
+    "deep-equal": "npm:deep-equal@1.0.1",
     "events": "github:jspm/nodelibs-events@0.2.0-alpha",
     "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",
     "jspm-caddy-hmr": "npm:jspm-caddy-hmr@0.2.10",

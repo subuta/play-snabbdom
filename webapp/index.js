@@ -31,7 +31,7 @@ const generateHooks = (name) => {
 // childrenのみを書き換えるパターン
 const render = inject(({dispatch, state}) => {
   const count = state.counter.count;
-  return h(`div.test${count}`, {
+  return h(`div#app-container.test${count}`, {
     style: {
       display: 'flex',
       justifyContent: 'center',
@@ -63,3 +63,11 @@ const update = () => {
 };
 
 const unSubscribe = store.subscribe(update);
+
+export const _reload = () => {
+  update();
+};
+
+export const _unload = () => {
+  unSubscribe();
+};

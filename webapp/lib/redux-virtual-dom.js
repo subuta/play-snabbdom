@@ -1,3 +1,5 @@
+import equal from 'deep-equal';
+
 // receive redux store and return inject.
 export default (store) => {
   const {dispatch, getState} = store;
@@ -11,6 +13,7 @@ export default (store) => {
     // if only render function passed.
     if (!hasMapStateToProps) {
       // render with context
+      // console.log(equal({props, state, dispatch}, {props, state, dispatch}));
       return render({props, state, dispatch});
     }
 
