@@ -1,10 +1,10 @@
 import h from 'snabbdom/h';
 
-import store, {getContext} from 'webapp/store.js'
+import store, {inject} from 'webapp/store.js'
 import {createSelector} from 'reselect';
 import {getCount} from 'webapp/reducers/counter.js';
 
-const render = (state) => {
+export default inject(({state}) => {
   const count = getCount(state);
   return h(`span`, {
     on: {
@@ -15,9 +15,4 @@ const render = (state) => {
       }
     }
   }, [count]);
-};
-
-export default () => {
-  const {dispatch, state} = getContext();
-  return render(state);
-};
+});

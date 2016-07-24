@@ -18,7 +18,5 @@ export default (store) => {
     return render({props, dispatch, state: mapStateToProps(state)});
   };
 
-  return {
-    inject
-  }
+  return inject;
 };

@@ -1,12 +1,11 @@
 import h from 'snabbdom/h';
-import {getContext} from 'webapp/store.js'
+import {inject} from 'webapp/store.js'
 
 import {
   increment
 } from 'webapp/actions/counter.js';
 
-export default () => {
-  const {dispatch, state} = getContext();
+export default inject(({dispatch}) => {
   return h(`button`, {
     on: {
       click: function (ev) {
@@ -17,4 +16,4 @@ export default () => {
       height: '20px'
     }
   }, ['increment']);
-};
+});

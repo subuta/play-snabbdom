@@ -7,7 +7,7 @@ import h from 'snabbdom/h';
 import _ from 'lodash';
 import page from 'page';
 
-import store, {getContext} from 'webapp/store.js'
+import store, {inject} from 'webapp/store.js'
 
 import Counter from './components/counter.js';
 import incrementer from './components/incrementer.js';
@@ -29,7 +29,7 @@ const generateHooks = (name) => {
 };
 
 // childrenのみを書き換えるパターン
-const render = ({dispatch, state}) => {
+const render = inject(({dispatch, state}) => {
   const count = state.counter.count;
   return h(`div.test${count}`, {
     style: {
@@ -47,17 +47,17 @@ const render = ({dispatch, state}) => {
     Counter(),
     decrementer()
   ]);
-};
+});
 
 let container = document.querySelector('#app-container');
 
 // Patch into empty DOM element – this modifies the DOM as a side effect
-let tree = render(getContext()); // We need an initial tree
+let tree = render(); // We need an initial tree
 patch(container, tree);
 
 // - with diff then patch(efficient way / with vdom)
 const update = () => {
-  var newTree = render(getContext());
+  var newTree = render();
   patch(tree, newTree);
   tree = newTree;
 };
